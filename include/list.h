@@ -28,6 +28,14 @@ public:
 	~list() {
 		deleteList();
 	}
+	T PopFront() {
+		if(head == nullptr) return;
+		_node *node = head;
+		head = head-next;
+		T val = node->data;
+		delete node;
+		return val;
+	}
 	void pushFront(T data);
 	void pushBack(T data);
 	void print();
