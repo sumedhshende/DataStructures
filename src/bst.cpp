@@ -1,9 +1,9 @@
 // bst.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
 #include<cstdio>
 #include<iostream>
+#include<iomanip>
 using namespace std;
 
 template<class T>
@@ -43,6 +43,17 @@ public:
         preorder(r->left);
         preorder(r->right);
     }
+void postorder(bnode<T>* p, int indent=0)
+{
+    if(p != NULL) {
+        if(p->left) postorder(p->left, indent+4);
+        if(p->right) postorder(p->right, indent+4);
+        if (indent) {
+            std::cout << setw(indent) << ' ';
+        }
+        cout<< p->val;
+    }
+}
     void clean(bnode<T>** r) {
         bnode<T>* t = *r;
         if (t->left) clean(&t->left);
@@ -50,15 +61,55 @@ public:
         delete t;
        *r = nullptr;
     }
+    void insert(bnode<T>* r, T val){
+        if(r == nullptr) return;
+         
+        if(val < r->val) {
+            if(r->left != nullptr && val > r->left->val) {
+                insert(r->left, val);
+            }else{
+                bnode<T>* t = new bnode<T>;
+                t->val = val;
+                t->left = r->left;
+                r->left = t;
+               return;
+            }
+        } else {
+             if(r->right != nullptr && val > r->right->val) {
+                insert(r->right, val);
+            }else{
+                bnode<T>* t = new bnode<T>;
+                t->val = val;
+                t->right = r->right;
+                r->right = t;
+               return;
+            }
+        }
+    }
 };
 
 int main()
 {
     bstree<int> bst;
     bnode<int>* r = bst.buildbst();
-    bst.preorder(r);
-    bst.clean(&r);
-    bst.preorder(r);
+    cout << setw(10);
+    bst.postorder(r, 0);
+//    cout << endl;   
+   // bst.clean(&r);
+   // bst.preorder(r);
+   bst.insert(r, 4);
+  bst.postorder(r, 0);
+  // cout << endl;
+   bst.insert(r, 6);
+   bst.postorder(r, 0);
+  // cout << endl; 
+
+   bst.insert(r, 11);
+   bst.postorder(r, 0);
+  // cout << endl;
+   bst.insert(r, 0);
+   bst.postorder(r, 0);
+  // cout << endl;
     return 0;
 }
 
