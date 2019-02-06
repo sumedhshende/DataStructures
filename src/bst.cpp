@@ -38,53 +38,48 @@ public:
         return r;
     }
     void preorder(bnode<T>* r) {
-        if (r == nullptr) return;
+        if (r == nullptr) { 
+            return;
+        }
         cout << r->val << " ";
         preorder(r->left);
         preorder(r->right);
     }
-void postorder(bnode<T>* p, int indent=0)
-{
-    if(p != NULL) {
-        if(p->left) postorder(p->left, indent+4);
-        if(p->right) postorder(p->right, indent+4);
-        if (indent) {
-            std::cout << setw(indent) << ' ';
+    void postorder(bnode<T>* p, int indent=0)
+    {
+        if(p != NULL) {
+            if(p->left) postorder(p->left, indent+4);
+            if(p->right) postorder(p->right, indent+4);
+            if (indent) {
+                std::cout << setw(indent) << ' ';
+            }
+            cout<< p->val;
         }
-        cout<< p->val;
     }
-}
     void clean(bnode<T>** r) {
         bnode<T>* t = *r;
         if (t->left) clean(&t->left);
         if (t->right) clean(&t->right);
         delete t;
-       *r = nullptr;
+        *r = nullptr;
     }
-    void insert(bnode<T>* r, T val){
-        if(r == nullptr) return;
-         
+    //            5
+    ////      2       8
+    ///   1      3 7     9
+    //
+
+    bnode<T>* insert(bnode<T>* r, T val){
+        if(r == nullptr) {
+            r = new bnode<T>;
+            r->val = val;
+        };
+        
         if(val < r->val) {
-            if(r->left != nullptr && val > r->left->val) {
-                insert(r->left, val);
-            }else{
-                bnode<T>* t = new bnode<T>;
-                t->val = val;
-                t->left = r->left;
-                r->left = t;
-               return;
-            }
-        } else {
-             if(r->right != nullptr && val > r->right->val) {
-                insert(r->right, val);
-            }else{
-                bnode<T>* t = new bnode<T>;
-                t->val = val;
-                t->right = r->right;
-                r->right = t;
-               return;
-            }
+            r->left =  insert(r->left, val);
+        } else if(val > r->val) {
+            r->right = insert(r->right, val);
         }
+        return r;
     }
 };
 
@@ -92,24 +87,22 @@ int main()
 {
     bstree<int> bst;
     bnode<int>* r = bst.buildbst();
-    cout << setw(10);
-    bst.postorder(r, 0);
-//    cout << endl;   
-   // bst.clean(&r);
-   // bst.preorder(r);
-   bst.insert(r, 4);
-  bst.postorder(r, 0);
-  // cout << endl;
-   bst.insert(r, 6);
-   bst.postorder(r, 0);
-  // cout << endl; 
+  
+    bst.preorder(r);
+    cout << endl;
+    bst.insert(r, 4);
+    bst.preorder(r);
+    cout << endl;
+    bst.insert(r, 6);
+    bst.preorder(r);
+    cout << endl;
 
    bst.insert(r, 11);
-   bst.postorder(r, 0);
-  // cout << endl;
+   bst.preorder(r);
+   cout << endl;
    bst.insert(r, 0);
-   bst.postorder(r, 0);
-  // cout << endl;
-    return 0;
+   bst.preorder(r);
+   cout << endl;
+return 0;
 }
 
