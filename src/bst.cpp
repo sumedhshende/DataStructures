@@ -4,6 +4,8 @@
 #include<cstdio>
 #include<iostream>
 #include<iomanip>
+#include <vector>
+#include <cmath>
 using namespace std;
 
 template<class T>
@@ -63,6 +65,42 @@ public:
         delete t;
         *r = nullptr;
     }
+    void pprint(bnode<T>* r) {
+        vector<T> v;
+        vector<bnode<T>*> q;
+        if (r == nullptr) return;
+        q.push_back(r);
+        v.push_back(n->val);
+        while (!q.empty()) {
+            bnode<T>* n = q[0];
+            q.erase(q.begin());
+            if (n->left) {
+                v.push_back(n->left->val);
+                q.push_back(n->left);
+            }else{
+                  v.push_back(0);
+            }
+            if (n->right) {
+                v.push_back(n->right->val);
+                q.push_back(n->right);
+            }
+            else {
+                v.push_back(0);
+            }
+        }
+        int indent = 50;
+        setw(indent);
+       /* cout << v[0] << endl;*/
+        for (int i=0, d = 0; i < v.size(); i++, d++) {
+            int count = pow(2,d);
+            
+            for (int j = 0; (j < count && i < v.size()); j++) {
+                cout << v[i++];
+            }
+           // indent /= 2;
+            cout << endl;
+        }
+    }
     //            5
     ////      2       8
     ///   1      3 7     9
@@ -88,21 +126,23 @@ int main()
     bstree<int> bst;
     bnode<int>* r = bst.buildbst();
   
-    bst.preorder(r);
-    cout << endl;
+    bst.pprint(r);
     bst.insert(r, 4);
-    bst.preorder(r);
-    cout << endl;
+   // bst.preorder(r);
+  //  cout << endl;
+    bst.pprint(r);
     bst.insert(r, 6);
-    bst.preorder(r);
-    cout << endl;
-
+  //  bst.preorder(r);
+   // cout << endl;
+    bst.pprint(r);
    bst.insert(r, 11);
-   bst.preorder(r);
-   cout << endl;
+  // bst.preorder(r);
+  // cout << endl;
+   bst.pprint(r);
    bst.insert(r, 0);
-   bst.preorder(r);
-   cout << endl;
+   bst.pprint(r);
+  // bst.preorder(r);
+  // cout << endl;
 return 0;
 }
 
