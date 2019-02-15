@@ -23,7 +23,7 @@ class bstree {
     bnode* _r;
 
 private:
-    bnode* insert(int val, bnode* r ) {
+    bnode* insert(int val, bnode* r) {
         if (r == nullptr) {
             r = new bnode;
             r->val = val;;
@@ -77,7 +77,7 @@ public:
         preorder(vA, r->left);
         preorder(vA, r->right);
     }
-  
+
     void insert(int val) {
         _r = insert(val, _r);
     }
@@ -120,7 +120,7 @@ public:
         bst.buildbst();
         // bst.preorder(v1, r);
         bst.clean();
-       // bst.preorder(v2, r);
+        // bst.preorder(v2, r);
         bst.pprint();
         return false;
     }
@@ -135,7 +135,7 @@ public:
             for (int j = 0; j < elemCount; j++) {
                 vA.push_back(rand() % 20);
             }
-            for(int k=0;k<elemCount; k++) {
+            for (int k = 0; k<elemCount; k++) {
                 bst.insert(vA[k]);
             }
             cout << " --- Height ---->   " << bst.height() << endl;
@@ -150,8 +150,8 @@ public:
 int main()
 {
     test_bst tbst;
-    cout << "Test bstree::test_insert() : " << (tbst.test_insert() ? "PASS": "FAIL");
-   
+    cout << "Test bstree::test_insert() : " << (tbst.test_insert() ? "PASS" : "FAIL");
+
     return 0;
 }
 
