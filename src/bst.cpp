@@ -7,6 +7,7 @@
 #include<vector>
 #include <list>
 #include <cmath>
+#include <ctime>
 
 using namespace std;
 
@@ -20,10 +21,36 @@ struct bnode {
 
 class bstree {
     bnode* _r;
-public:
-    bstree():_r(nullptr) {
 
+private:
+    bnode* insert(int val, bnode* r ) {
+        if (r == nullptr) {
+            r = new bnode;
+            r->val = val;;
+        }
+        if (val < r->val)
+            r->left = insert(val, r->left);
+        if (val > r->val)
+            r->right = insert(val, r->right);
+        return r;
     }
+    void clean(bnode** r) {
+        bnode* t = *r;
+        if (t->left) clean(&t->left);
+        if (t->right) clean(&t->right);
+        delete t;
+        *r = nullptr;
+    }
+    int height(bnode* r) {
+        if (r == nullptr) return 0;
+        int lh = height(r->left) + 1;
+        int rh = height(r->right) + 1;
+        if (lh > rh) return lh;
+        else return rh;
+    }
+
+public:
+    bstree() :_r(nullptr) {}
     bnode* buildbst() {
         bnode*r = new bnode;
         r->val = 5;
@@ -44,29 +71,21 @@ public:
         _r = r;
         return r;
     }
-    void preorder(vector<int>& vA,bnode* r) {
+    void preorder(vector<int>& vA, bnode* r) {
         if (r == nullptr) return;
         vA.push_back(r->val);
         preorder(vA, r->left);
         preorder(vA, r->right);
     }
-    void clean(bnode** r) {
-        bnode* t = *r;
-        if (t->left) clean(&t->left);
-        if (t->right) clean(&t->right);
-        delete t;
-       *r = nullptr;
+  
+    void insert(int val) {
+        _r = insert(val, _r);
     }
-    bnode* insert(int val, bnode* r) {
-          if (r == nullptr) {
-            r = new bnode;
-            r->val = val;;
-        }
-        if (val < r->val)
-          r->left = insert(val, r->left);
-        if (val > r->val)
-          r->right = insert(val, r->right);
-        return r;
+    void clean() {
+        clean(&_r);
+    }
+    int height() {
+        return height(_r);
     }
     void pprint() {
         vector<int> v;
@@ -77,14 +96,15 @@ public:
 
         while (!l.empty()) {
             bnode* t = l.front();
-            l.pop_front();
-            if (t->left) {
+
+            if (t->left != nullptr) {
                 l.push_back(t->left);
             }
-            if (t->right) {
+            if (t->right != nullptr) {
                 l.push_back(t->right);
             }
             v.push_back(t->val);
+            l.pop_front();
         }
         int level = 0;
         for (int i = 0; i < v.size(); i++) {
@@ -94,29 +114,43 @@ public:
 };
 class test_bst {
 public:
-    
+
     bool test_clean() {
         bstree bst;
-        bnode* r = bst.buildbst();
-        vector<int> v1;
-        vector<int> v2;
-       
-        bst.pprint(); 
-        bst.preorder(v1, r);
-        bst.clean(&r);
-        bst.preorder(v2, r);
+        bst.buildbst();
+        // bst.preorder(v1, r);
+        bst.clean();
+       // bst.preorder(v2, r);
         bst.pprint();
-        if (v2.size() == 0) {
-            return true;
-        }
         return false;
+    }
+    bool test_insert() {
+        bstree bst;
+        vector<int> vA;
+
+        srand(time(nullptr));
+        int testCount = 10;
+        for (int i = 0; i < testCount; i++) {
+            int elemCount = rand() % 20;
+            for (int j = 0; j < elemCount; j++) {
+                vA.push_back(rand() % 20);
+            }
+            for(int k=0;k<elemCount; k++) {
+                bst.insert(vA[k]);
+            }
+            cout << " --- Height ---->   " << bst.height() << endl;
+            bst.pprint();
+            bst.clean();
+            cout << endl;
+        }
+        return true;
     }
 };
 
 int main()
 {
     test_bst tbst;
-    cout << "Test bstree::clean() : " << (tbst.test_clean() ? "PASS": "FAIL");
+    cout << "Test bstree::test_insert() : " << (tbst.test_insert() ? "PASS": "FAIL");
    
     return 0;
 }
