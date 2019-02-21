@@ -10,13 +10,11 @@ void siftup() {
 	for(int i=size;i>0;) {
 
 		int p = i/2;
-
-		if(arr[p] <= arr[i]) break;
-		
+		if(arr[p] <= arr[i]) break;		
 		int temp = arr[i];
 		arr[i] = arr[p];
 		arr[p] = temp;
-		 i = p;
+		i = p;
 	}
 }
 
