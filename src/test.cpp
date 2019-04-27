@@ -1,7 +1,6 @@
-#include <common.h>
-#include <utils.h>
+#include"../include/common.h"
+#include "../include/utils.h"
 
-int main(void) {
-
-return 0;
-}
+int main() {
+	return 0;
+}	
