@@ -1,7 +1,7 @@
 #include "../include/common.h"
 #include "../include/utils.h"
 
-void printv(vector<int>& vA) {
+void vprint(vector<int>& vA) {
 	for(int i=0; i<vA.size(); i++) {
 		cout << vA[i] << " ";
 	}
