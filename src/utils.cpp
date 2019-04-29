@@ -1,9 +1,10 @@
 #include "../include/common.h"
 #include "../include/utils.h"
 
-void vector_print(vector<int>& vA) {
+void printv(vector<int>& vA) {
 	for(int i=0; i<vA.size(); i++) {
 		cout << vA[i] << " ";
+	}
 	cout << endl;
 }
 void reverse(vector<int>& vA, int s, int e) {
