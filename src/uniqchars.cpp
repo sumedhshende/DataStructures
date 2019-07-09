@@ -5,7 +5,7 @@ bool uniqueChars(char* str) {
 	if(str == NULL) return false;
 	vector<bool> bm(CHAR_COUNT, false);
 	for(char* p=str; p!='\0'; p++) {
-		if(bm[*p] == true)
+		if(bm[*p-'a'] == true)
 			return false;
 		else
 			bm[*p] = true;
@@ -15,12 +15,12 @@ bool uniqueChars(char* str) {
 
 int main() {
 	char* nstr = NULL;
-	cout << nstr << " : " << uniqueChars(nstr) << endl; 
+	cout << "NULL" << " : " << uniqueChars(nstr) << endl;
 	char* nstr1 = "s";
 	cout << nstr1 << " : " << uniqueChars(nstr1) << endl; 
-	char* nstr2 = "SumedhShende";
+	char* nstr2 = "sumedhhende";
 	cout << nstr2 << " : " << uniqueChars(nstr2) << endl; 
-	char* nstr3 = "Shil";
+	char* nstr3 = "shil";
 	cout << nstr3 << " : " << uniqueChars(nstr3) << endl; 
 	return 0;
 }	
